@@ -4,20 +4,22 @@
 // Funções auxiliares
 float definirPercentualParcela(int numParcelas) {
     switch(numParcelas) {
-        case 12: return 0.30; // 30%
-        case 24: return 0.50; // 50%
-        case 36: return 0.75; // 75%
-        case 48: return 0.90; // 90%
+        case 12: return 0.30;  // 30%
+        case 24: return 0.50;  // 50%
+        case 36: return 0.75;  // 75%
+        case 48: return 0.90;  // 90%
+        case 60: return 1.10;  // 110%
         default: return 0;
     }
 }
 
 float calcularJuros(int numParcelas) {
     switch(numParcelas) {
-        case 12: return 0.015; // 1.5%
-        case 24: return 0.020; // 2.0%
-        case 36: return 0.025; // 2.5%
-        case 48: return 0.030; // 3.0%
+        case 12: return 0.015;  // 1.5%
+        case 24: return 0.020;  // 2.0%
+        case 36: return 0.025;  // 2.5%
+        case 48: return 0.030;  // 3.0%
+        case 60: return 0.035;  // 3.5%
         default: return 0;
     }
 }
@@ -27,7 +29,7 @@ void exibirSeparador() {
 }
 
 int main() {
-    setlocale(LC_ALL, "Portuguese_Brazil.1252");  // Configura o locale para português
+    setlocale(LC_ALL, "Portuguese_Brazil.1252");
     
     // Declaração de variáveis
     float salario, divida, valorEmprestimo;
@@ -51,16 +53,36 @@ int main() {
         scanf("%f", &valorEmprestimo);
     } while (valorEmprestimo <= 0);
 
-    printf("Digite o numero de parcelas (12, 24, 36 ou 48): ");
+    printf("Digite o tempo de estabilidade no emprego (em anos): ");
+    scanf("%d", &tempoEmprego);
+
+    // Determinar parcelas disponíveis com base no tempo de emprego
+    int maxParcelas;
+    if (tempoEmprego < 1) {
+        maxParcelas = 12;
+        printf("\nPara tempo de emprego menor que 1 ano, disponível apenas 12 parcelas.\n");
+    } else if (tempoEmprego >= 1 && tempoEmprego <= 3) {
+        maxParcelas = 24;
+        printf("\nPara tempo de emprego entre 1 e 3 anos, disponível até 24 parcelas.\n");
+    } else {
+        maxParcelas = 60;
+        printf("\nPara tempo de emprego maior que 3 anos, disponível até 60 parcelas.\n");
+    }
+
+    printf("\nDigite o numero de parcelas desejado: ");
     scanf("%d", &numParcelas);
     
-    if (numParcelas != 12 && numParcelas != 24 && numParcelas != 36 && numParcelas != 48) {
-        printf("\nERRO: Número de parcelas inválido. Use 12, 24, 36 ou 48 parcelas.\n");
+    // Validação das parcelas
+    if (numParcelas != 12 && numParcelas != 24 && numParcelas != 36 && 
+        numParcelas != 48 && numParcelas != 60) {
+        printf("\nERRO: Número de parcelas inválido. Use 12, 24, 36, 48 ou 60 parcelas.\n");
         return 1;
     }
 
-    printf("Digite o tempo de estabilidade no emprego (em anos): ");
-    scanf("%d", &tempoEmprego);
+    if (numParcelas > maxParcelas) {
+        printf("\nERRO: Seu tempo de emprego permite no máximo %d parcelas.\n", maxParcelas);
+        return 1;
+    }
 
     exibirSeparador();
     printf("ANÁLISE DO EMPRÉSTIMO\n");
@@ -74,7 +96,7 @@ int main() {
         return 0;
     }
 
-    // Definição do percentual da parcela baseado no número de parcelas
+    // Definição do percentual da parcela e taxa de juros
     float percentualMax = definirPercentualParcela(numParcelas);
     float taxaJuros = calcularJuros(numParcelas);
     
@@ -86,22 +108,6 @@ int main() {
         printf("Empréstimo RECUSADO\n");
         printf("Valor da parcela (R$ %.2f) ultrapassa %.0f%% do salário\n", 
                valorParcela, percentualMax * 100);
-        return 0;
-    }
-
-    // Verificação do tempo de emprego
-    int maxParcelas;
-    if (tempoEmprego < 1) {
-        maxParcelas = 12;
-    } else if (tempoEmprego >= 1 && tempoEmprego <= 3) {
-        maxParcelas = 24;
-    } else {
-        maxParcelas = 48;
-    }
-
-    if (numParcelas > maxParcelas) {
-        printf("Empréstimo RECUSADO\n");
-        printf("Limite máximo de parcelas para seu tempo de emprego: %d\n", maxParcelas);
         return 0;
     }
 

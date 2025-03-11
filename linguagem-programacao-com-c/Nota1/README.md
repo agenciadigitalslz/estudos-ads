@@ -1,5 +1,5 @@
 # Documentação do Simulador de Empréstimo Bancário
-Linguagem de Programação - Empréstimos Bancários (Nota 1)
+<p align="center">Linguagem de Programação - Empréstimos Bancários (Nota 1)</p>
 
 ## 1. Introdução
 

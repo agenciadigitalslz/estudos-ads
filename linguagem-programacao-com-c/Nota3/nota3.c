@@ -1,17 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>   // Para capturar data/hora do sistema
+#include <time.h>   // (Melhoria 12) Necessário para registrar data/hora da compra
 
+// (Correção 2) Definição de limites para clientes, produtos e vendas, evitando estouro de vetores
 #define TAMCli 5
 #define TAMProd 5
 #define TAMVend 10
 
+/* (Correção 1) Evita loop com entradas inválidas
+   (Critério de Validação de Entradas). */
 void limparBuffer() {
     int ch;
     while ((ch = getchar()) != '\n' && ch != EOF);
 }
 
+/* (Melhoria 2) Controle manual de limpeza de tela,
+   permitindo ao usuário decidir quando limpar (cross-plataforma). */
 void clearScreen() {
 #ifdef _WIN32
     system("cls");
@@ -20,33 +25,40 @@ void clearScreen() {
 #endif
 }
 
-// Struct Produto
+/* (Critério "Registro dos dados da compra" - 2,0 pts)
+   (Correção 5) Estruturas separadas para cada entidade:
+   (Melhoria 9) IDs exibidos em relatórios. */
 typedef struct {
-    int id;
-    char nome[20];
-    int quantidade;
-    float valor;
+    int id;                   // (Melhoria 9) ID único do produto
+    char nome[20];            // Nome do produto
+    int quantidade;           // Quantidade em estoque
+    float valor;              // Preço unitário
 } Produto;
 
-// Struct Cliente
 typedef struct {
-    int id;
-    char nome[20];
+    int id;                   // (Melhoria 9) ID único do cliente
+    char nome[20];            // Nome do cliente
 } Cliente;
 
-// Struct Venda com data/hora da compra
+/* (Melhoria 12) dataHora para armazenar momento da venda.
+   (Critério "Registro dos dados da compra"). */
 typedef struct {
-    int idCliente;
-    int idProduto;
-    int quantProduto;
-    float valorTotal;
-    char dataHora[30];   // Data/hora no formato dd/mm/aaaa HH:MM:SS
+    int idVenda;              // (Melhoria 5) ID interno da venda
+    int idCliente;            // ID do cliente
+    int idProduto;            // ID do produto
+    int quantProduto;         // Quantidade vendida
+    float valorTotal;         // Valor total
+    char dataHora[30];        // Data/hora da compra
 } Venda;
 
+/* (Correção 2) Controladores globais */
 int totalClientes = 0;
 int totalProdutos = 0;
 
-// ----------------------- CLIENTES -----------------------
+/* ----------------------- CLIENTES ----------------------- */
+
+/* (Melhoria 4) Cadastro dinâmico (até TAMCli)
+   (Correção 6) Bloqueia cadastro além do limite */
 void cadastrarCliente(Cliente c[]) {
     if (totalClientes >= TAMCli) {
         printf("\nLimite de clientes atingido.\n");
@@ -58,13 +70,16 @@ void cadastrarCliente(Cliente c[]) {
         printf("Entrada inválida para o nome do cliente. Tente novamente.\n");
         return;
     }
+    // (Melhoria 9) ID do cliente
     c[totalClientes].id = totalClientes + 1;
     totalClientes++;
     printf("Cliente cadastrado com sucesso!\n");
 }
 
+/* (Melhoria 3) Relatório de clientes */
 void consultarCliente(Cliente c[]) {
     for (int i = 0; i < totalClientes; i++) {
+        // (Correção 5) Ignora clientes deletados (id=0)
         if (c[i].id != 0) {
             printf("\n==============================\n");
             printf("Cliente #%d\n", c[i].id);
@@ -75,6 +90,7 @@ void consultarCliente(Cliente c[]) {
     printf("\nConsulta finalizada com sucesso!\n");
 }
 
+/* (Melhoria 6) Deleção lógica de cliente */
 void deletarCliente(Cliente c[]) {
     int id;
     printf("\nDigite o ID do cliente a ser deletado: ");
@@ -88,7 +104,7 @@ void deletarCliente(Cliente c[]) {
     printf("Cliente removido com sucesso.\n");
 }
 
-// Submenu de clientes
+/* Submenu de clientes (Melhoria 3, Correção 7) */
 void submenuClientes(Cliente clientes[]) {
     int opcao;
     do {
@@ -98,6 +114,7 @@ void submenuClientes(Cliente clientes[]) {
         printf("3 - Deletar Cliente por ID\n");
         printf("0 - Voltar\n>>>> ");
 
+        // (Correção 1) Verificação robusta de scanf
         if (scanf("%d", &opcao) != 1) {
             limparBuffer();
             printf("Opção inválida!\n");
@@ -123,7 +140,8 @@ void submenuClientes(Cliente clientes[]) {
     } while (opcao != 0);
 }
 
-// ----------------------- PRODUTOS -----------------------
+/* ----------------------- PRODUTOS ----------------------- */
+
 void cadastrarProduto(Produto p[]) {
     if (totalProdutos >= TAMProd) {
         printf("\nLimite de produtos atingido.\n");
@@ -181,7 +199,7 @@ void deletarProduto(Produto p[]) {
     printf("Produto removido com sucesso.\n");
 }
 
-// Submenu de produtos
+/* Submenu de produtos (Melhoria 3) */
 void submenuProdutos(Produto produtos[]) {
     int opcao;
     do {
@@ -216,7 +234,11 @@ void submenuProdutos(Produto produtos[]) {
     } while (opcao != 0);
 }
 
-// ----------------------- VENDAS -----------------------
+/* ----------------------- VENDAS ----------------------- */
+
+/* (Critério "Registro dos dados da compra" - 2,0 pts)
+   (Correção 3, 4) Validamos cliente e produto antes
+   (Critério "Validação do estoque" - 3,0 pts) */
 void realizarVenda(Cliente clientes[], Produto produtos[], Venda vendas[], int *numVendas) {
     int idCliente, idProduto, quantidade;
 
@@ -246,11 +268,14 @@ void realizarVenda(Cliente clientes[], Produto produtos[], Venda vendas[], int *
         return;
     }
 
+    // (Melhoria 10) Atualiza estoque
     produtos[idProduto - 1].quantidade -= quantidade;
 
+    /* (Critério "Cálculo do valor total da venda" - 2,0 pts)
+       total = quantidade × valor unitário */
     float total = quantidade * produtos[idProduto - 1].valor;
 
-    // Captura Data/Hora
+    // Gera data/hora da venda (Melhoria 12)
     time_t t = time(NULL);
     struct tm tm_struct = *localtime(&t);
     char buffer[30];
@@ -262,20 +287,57 @@ void realizarVenda(Cliente clientes[], Produto produtos[], Venda vendas[], int *
             tm_struct.tm_min,
             tm_struct.tm_sec);
 
-    // Grava os dados da venda
-    vendas[*numVendas].idCliente   = idCliente;
-    vendas[*numVendas].idProduto   = idProduto;
-    vendas[*numVendas].quantProduto= quantidade;
-    vendas[*numVendas].valorTotal  = total;
-    // Guarda a data/hora no campo dataHora
+    /* (Melhoria 5) Adicionando ID interno para a venda */
+    vendas[*numVendas].idVenda      = *numVendas + 1;
+    vendas[*numVendas].idCliente    = idCliente;
+    vendas[*numVendas].idProduto    = idProduto;
+    vendas[*numVendas].quantProduto = quantidade;
+    vendas[*numVendas].valorTotal   = total;
     strcpy(vendas[*numVendas].dataHora, buffer);
 
     (*numVendas)++;
 
-    printf("Venda realizada com sucesso! Total: R$ %.2f\n", total);
+    printf("Venda #%d realizada com sucesso! Total: R$ %.2f\n",
+           *numVendas, total);
     printf("Data/Hora da compra: %s\n", buffer);
 }
 
+/* (Melhoria 5) Função para cancelar uma venda por ID
+   Retorna a quantidade cancelada para o estoque do produto
+   e realoca as vendas subsequentes. */
+void cancelarVenda(Venda vendas[], int *numVendas, Produto produtos[]) {
+    if (*numVendas == 0) {
+        printf("\nNao ha vendas registradas.\n");
+        return;
+    }
+    int id;
+    printf("\nDigite o ID interno da venda [1..%d]: ", *numVendas);
+    if (scanf("%d", &id) != 1 || id < 1 || id > *numVendas) {
+        limparBuffer();
+        printf("ID de venda invalido.\n");
+        return;
+    }
+
+    // Antes de remover, pegamos o ID do produto e quantidade vendida
+    int index = id - 1;  // Posição no array
+    int idProd   = vendas[index].idProduto;
+    int qtdVend  = vendas[index].quantProduto;
+
+    // (Melhoria solicitada) Retorna ao estoque
+    produtos[idProd - 1].quantidade += qtdVend;
+
+    // Realoca as vendas subsequentes para remover a venda
+    for (int i = index; i < (*numVendas - 1); i++) {
+        vendas[i] = vendas[i + 1];
+    }
+    (*numVendas)--;
+
+    printf("Venda #%d cancelada com sucesso!\n", id);
+    printf("Estoque do produto #%d foi restaurado em %d unidades.\n",
+           idProd, qtdVend);
+}
+
+/* (Critério "Geração do relatório de vendas" - 2,0 pts) */
 void consultarVendas(Venda vendas[], int numVendas, Cliente clientes[], Produto produtos[]) {
     if (numVendas == 0) {
         printf("Nenhuma venda registrada.\n");
@@ -286,27 +348,30 @@ void consultarVendas(Venda vendas[], int numVendas, Cliente clientes[], Produto 
     for (int i = 0; i < numVendas; i++) {
         int idCli  = vendas[i].idCliente;
         int idProd = vendas[i].idProduto;
+        int vID    = vendas[i].idVenda;
         printf("\n==============================\n");
-        printf("Venda %d\n", i + 1);
+        printf("Venda #%d\n", vID);
         printf("Cliente: %s\n",  clientes[idCli - 1].nome);
         printf("Produto: %s\n",  produtos[idProd - 1].nome);
-        printf("Quantidade: %d\n",     vendas[i].quantProduto);
-        printf("Total: R$ %.2f\n",    vendas[i].valorTotal);
-        // Exibe a data/hora
+        printf("Quantidade: %d\n", vendas[i].quantProduto);
+        printf("Total: R$ %.2f\n", vendas[i].valorTotal);
         printf("Data/Hora da compra: %s\n", vendas[i].dataHora);
 
         totalGeral += vendas[i].valorTotal;
     }
-    printf("\nTotal Geral de Vendas: R$ %.2f\n", totalGeral);
+    printf("\n==============================\n");
+    printf("Total Geral de Vendas: R$ %.2f\n", totalGeral);
 }
 
-// Submenu de vendas
+/* Submenu de vendas (Melhoria 3, Correção 7)
+   Agora com opção 3 de Cancelar Venda. */
 void submenuVendas(Cliente clientes[], Produto produtos[], Venda vendas[], int *numVendas) {
     int opcao;
     do {
         printf("\n===== MENU VENDAS =====\n");
         printf("1 - Realizar Venda\n");
         printf("2 - Consultar Vendas\n");
+        printf("3 - Cancelar Venda\n");
         printf("0 - Voltar\n>>>> ");
 
         if (scanf("%d", &opcao) != 1) {
@@ -323,6 +388,9 @@ void submenuVendas(Cliente clientes[], Produto produtos[], Venda vendas[], int *
             case 2:
                 consultarVendas(vendas, *numVendas, clientes, produtos);
                 break;
+            case 3:
+                cancelarVenda(vendas, numVendas, produtos);
+                break;
             case 0:
                 break;
             default:
@@ -331,15 +399,20 @@ void submenuVendas(Cliente clientes[], Produto produtos[], Venda vendas[], int *
     } while (opcao != 0);
 }
 
-// --------------------- MAIN ---------------------
+/* --------------------- MAIN ---------------------
+   (Melhoria 7) Mensagem final ao sair
+   (Melhoria 2) Opção de limpar a tela manualmente (case 0)
+   (Correção 9) Compila em Windows com MinGW sem erro WinMain@16
+   (Critério "Uso adequado de recursos na apresentação" - 1,0 pt)
+*/
 int main() {
     int opcao, sair = 0;
+    // Vetores de clientes, produtos e vendas
     Cliente clientes[TAMCli];
     Produto produtos[TAMProd];
-    // Adicionamos dataHora à estrutura de Venda
-    // Precisamos aumentar o struct: char dataHora[30];
-    Venda vendas[TAMVend];
-    int numVendas = 0;
+    Venda   vendas[TAMVend];
+
+    int numVendas = 0; // Contador de vendas ativas
 
     do {
         printf("\n==============================\n");
@@ -351,6 +424,7 @@ int main() {
         printf("0 - Limpar Tela\n");
         printf("9 - Sair\n>>>> ");
 
+        // (Correção 1) Verificação robusta de scanf
         if (scanf("%d", &opcao) != 1) {
             limparBuffer();
             printf("\nComando inválido!\n");
@@ -379,6 +453,7 @@ int main() {
                 printf("\nOpção inválida!\n");
         }
 
+        // Pausa para leitura antes de voltar ao loop
         if (!sair) {
             printf("\nPressione Enter para continuar...");
             limparBuffer();

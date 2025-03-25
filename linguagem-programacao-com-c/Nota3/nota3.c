@@ -1,3 +1,6 @@
+// Atividade 3: Sistema de Vendas
+// Desenvolva um sistema de vendas que permita cadastrar clientes, produtos e realizar vendas.
+
 #include <stdio.h>
 #include <stdlib.h>  // Necessário para usar system()
 

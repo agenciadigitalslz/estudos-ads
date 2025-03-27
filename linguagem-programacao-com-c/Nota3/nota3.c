@@ -1,5 +1,8 @@
-// Atividade 3: Sistema de Vendas
-// Desenvolva um sistema de vendas que permita cadastrar clientes, produtos e realizar vendas.
+// Disciplina   : [Linguagem de Programação com C]
+// Professor   : Pedro Brandão Neto 
+// Descrição   : Sistema de Vendas
+// Autor(a)    : André Lopes, Andressa Souza e Pedro Aurélio.
+// Data atual  : 26/03/2025
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -239,6 +242,25 @@ void submenuProdutos(Produto produtos[]) {
 
 /* ----------------------- VENDAS ----------------------- */
 
+/* Função para exibir a nota fiscal formatada */
+void exibirNotaFiscal(Venda venda, Cliente cliente, Produto produto) {
+    printf("\n==================================\n");
+    printf("           NOTA FISCAL           \n");
+    printf("==================================\n");
+    printf("Data/Hora: %s\n", venda.dataHora);
+    printf("Venda #%d\n\n", venda.idVenda);
+    printf("Cliente: %s (ID: %d)\n", cliente.nome, cliente.id);
+    printf("----------------------------------\n");
+    printf("PRODUTO:      %s\n", produto.nome);
+    printf("Quantidade:   %d\n", venda.quantProduto);
+    printf("Valor Unit.:  R$ %.2f\n", produto.valor);
+    printf("----------------------------------\n");
+    printf("VALOR TOTAL:  R$ %.2f\n", venda.valorTotal);
+    printf("==================================\n");
+    printf("       OBRIGADO PELA COMPRA      \n");
+    printf("==================================\n");
+}
+
 /* (Critério "Registro dos dados da compra" - 2,0 pts)
    (Correção 3, 4) Validamos cliente e produto antes
    (Critério "Validação do estoque" - 3,0 pts) */
@@ -298,11 +320,22 @@ void realizarVenda(Cliente clientes[], Produto produtos[], Venda vendas[], int *
     vendas[*numVendas].valorTotal   = total;
     strcpy(vendas[*numVendas].dataHora, buffer);
 
+    // Realizar a incrementação do numVendas antes de perguntar sobre a nota
     (*numVendas)++;
 
-    printf("Venda #%d realizada com sucesso! Total: R$ %.2f\n",
-           *numVendas, total);
-    printf("Data/Hora da compra: %s\n", buffer);
+    // Perguntar sobre emissão da nota fiscal
+    char resposta;
+    printf("\nEmitir via do cliente? (S/N): ");
+    scanf(" %c", &resposta);  // Espaço antes do %c para ignorar whitespace
+    limparBuffer();
+    
+    if (resposta == 'S' || resposta == 's') {
+        // Emitir nota fiscal
+        exibirNotaFiscal(vendas[(*numVendas) - 1], clientes[idCliente-1], produtos[idProduto-1]);
+    }
+
+    printf("\nVenda #%d realizada com sucesso! Total: R$ %.2f\n",
+           (*numVendas), total);
 }
 
 /* (Melhoria 5) Função para cancelar uma venda por ID

@@ -1,5 +1,16 @@
 # Documentação do Projeto: Sistema de Vendas em C
 
+## Menu de Navegação
+
+- [1. Introdução](#1-introdução)
+- [2. Objetivos do Projeto](#2-objetivos-do-projeto)
+  - [Funcionalidades Básicas](#funcionalidades-básicas)
+  - [Critérios Avaliativos Essenciais](#critérios-avaliativos-essenciais)
+- [3. Estrutura do Sistema](#3-estrutura-do-sistema)
+  - [3.1 Estruturas de Dados](#31-estruturas-de-dados)
+  - [3.2 Funções Principais](#32-funções-principais)
+- [4. Fluxo do Sistema](#4-fluxo-do-sistema)
+
 ## 1. Introdução
 Este projeto implementa um sistema de vendas em C, no qual o usuário pode cadastrar clientes e produtos, realizar vendas com controle de estoque, cancelar vendas e consultar as transações efetuadas. O sistema foi desenvolvido para consolidar os conhecimentos adquiridos na disciplina, respeitando os critérios avaliativos propostos e agregando melhorias significativas à estrutura original.
 
@@ -55,30 +66,44 @@ Todos os campos exigem entrada válida (numérica ou textual, conforme necessár
 - Cancelamentos são registrados e revertidos no estoque.
 
 ## 5. Melhorias Implementadas
-✅ **Validação Robusta de Entradas**
-✅ **Controle Manual da Tela**
-✅ **Submenus Interativos**
-✅ **Cadastro Dinâmico com Limite**
-✅ **Remoção Lógica por ID**
-✅ **Mensagens Personalizadas de Encerramento**
-✅ **ClearScreen Multiplataforma**
-✅ **Exibição de IDs nos Relatórios**
-✅ **Atualização de Estoque Após Venda**
-✅ **Organização Visual Aprimorada**
-✅ **Cancelamento de Venda com Retorno ao Estoque**
-✅ **Registro e Exibição de Data e Hora**
-✅ **Emissão de Nota Fiscal (simulada por menu)**
+
+### Interface e Usabilidade
+✅ **Controle Manual da Tela:** Permite ao usuário limpar a tela quando necessário
+✅ **Submenus Interativos:** Navegação intuitiva entre diferentes funcionalidades
+✅ **Organização Visual Aprimorada:** Layout mais claro e informativo
+✅ **Mensagens Personalizadas de Encerramento:** Feedback amigável ao sair do sistema
+
+### Funcionalidades Avançadas
+✅ **Cadastro Dinâmico com Limite:** Gerenciamento eficiente da memória
+✅ **Remoção Lógica por ID:** Exclusão segura sem comprometer a integridade dos dados
+✅ **Cancelamento de Venda com Retorno ao Estoque:** Reversão automática de transações
+✅ **Emissão de Nota Fiscal:** Simulação de comprovante para o cliente
+
+### Exibição e Registro de Dados
+✅ **Exibição de IDs nos Relatórios:** Facilita rastreamento e referência
+✅ **Atualização de Estoque Após Venda:** Controle em tempo real do inventário
+✅ **Registro e Exibição de Data e Hora:** Timestamp preciso para cada transação
+✅ **Validação Robusta de Entradas:** Previne erros de digitação e dados inválidos
+
+### Compatibilidade
+✅ **ClearScreen Multiplataforma:** Funciona em Windows, Linux e macOS
 
 ## 6. Correções Técnicas Aplicadas
-🛠️ **Validação de Entradas**
-🛠️ **Controle de Limites de Vetores**
-🛠️ **Verificação de IDs Válidos**
-🛠️ **Bloqueio de Vendas sem Estoque**
-🛠️ **Ignora Itens Excluídos**
-🛠️ **Mensagens Claras de Erro**
-🛠️ **Remoção de Itens Repetidos no Menu**
-🛠️ **Compatibilidade com Compiladores Windows (MinGW)**
-🛠️ **Declaração Antecipada de Funções**
+
+### Segurança e Validação
+🛠️ **Validação de Entradas:** Previne crashes por dados incorretos
+🛠️ **Verificação de IDs Válidos:** Garante referências a registros existentes
+🛠️ **Bloqueio de Vendas sem Estoque:** Impede operações impossíveis
+🛠️ **Mensagens Claras de Erro:** Orienta o usuário sobre problemas encontrados
+
+### Integridade de Dados
+🛠️ **Controle de Limites de Vetores:** Previne acessos inválidos à memória
+🛠️ **Ignora Itens Excluídos:** Mantém consistência nos relatórios e operações
+
+### Otimizações de Código
+🛠️ **Remoção de Itens Repetidos no Menu:** Interface mais limpa e eficiente
+🛠️ **Compatibilidade com Compiladores Windows:** Suporte ao MinGW
+🛠️ **Declaração Antecipada de Funções:** Estrutura de código mais organizada
 
 ## 7. Critérios Avaliativos Atendidos
 🎯 **1ª Etapa – Postagem da Implementação (4,0 pts)**

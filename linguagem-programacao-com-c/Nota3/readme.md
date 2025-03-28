@@ -1,18 +1,5 @@
 # Documentação do Projeto: Sistema de Vendas em C
 
-## Menu de Navegação
-
-- [1. Introdução](#1-introdução)
-- [2. Objetivos do Projeto](#2-objetivos-do-projeto)
-- [3. Estrutura do Sistema](#3-estrutura-do-sistema)
-- [4. Fluxo do Sistema](#4-fluxo-do-sistema)
-- [5. Validação de Dados](#5-validação-de-dados)
-- [6. Controle de Estoque](#6-controle-de-estoque)
-- [7. Emissão de Nota Fiscal](#7-emissão-de-nota-fiscal)
-- [8. Cancelamento de Vendas](#8-cancelamento-de-vendas)
-- [9. Relatórios](#9-relatórios)
-- [Sobre o Desenvolvedor](#sobre-o-desenvolvedor)
-
 ## 1. Introdução
 Este projeto implementa um sistema de vendas em C, no qual o usuário pode cadastrar clientes e produtos, realizar vendas com controle de estoque, cancelar vendas e consultar as transações efetuadas. O sistema foi desenvolvido para consolidar os conhecimentos adquiridos na disciplina, respeitando os critérios avaliativos propostos e agregando melhorias significativas à estrutura original.
 

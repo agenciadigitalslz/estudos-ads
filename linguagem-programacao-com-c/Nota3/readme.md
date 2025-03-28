@@ -1,105 +1,60 @@
-# Sistema de Vendas em C
+# 📊 Sistema de Vendas em C
 
-Este projeto implementa um sistema de vendas desenvolvido em linguagem C. O objetivo principal é permitir o cadastro de clientes e produtos, a realização de vendas com controle de estoque, e a consulta de transações efetuadas. O sistema foi criado para consolidar conhecimentos práticos em programação estruturada, além de atender a critérios de avaliação em um contexto acadêmico.
+<div align="center">
+  <img src="https://img.shields.io/badge/Linguagem-C-blue" alt="Linguagem C">
+  <img src="https://img.shields.io/badge/Versão-1.0-green" alt="Versão 1.0">
+  <img src="https://img.shields.io/badge/Status-Concluído-success" alt="Status: Concluído">
+</div>
 
-## 🎓 Objetivos do Projeto
+## 📝 Sumário
+- [Introdução](#-introdução)
+- [Objetivos do Projeto](#-objetivos-do-projeto)
+- [Estrutura do Sistema](#-estrutura-do-sistema)
+- [Fluxo do Sistema](#-fluxo-do-sistema)
+- [Melhorias Implementadas](#-melhorias-implementadas)
+- [Correções Técnicas](#-correções-técnicas-aplicadas)
+- [Critérios Avaliativos](#-critérios-avaliativos-atendidos)
+- [Compilação e Execução](#-compilação-e-execução)
+- [Conclusão](#-conclusão)
 
-### Funcionalidades Principais
-- Cadastro de clientes
-- Cadastro de produtos
-- Realização de vendas (com controle de estoque)
-- Consulta de clientes, produtos e vendas
-- Cancelamento de vendas
-- Registro da data e hora de cada venda
-- Relatório de vendas com valor total acumulado
+## 🚀 Introdução
+Este projeto implementa um sistema de vendas em C, no qual o usuário pode cadastrar clientes e produtos, realizar vendas com controle de estoque, cancelar vendas e consultar as transações efetuadas. O sistema foi desenvolvido para consolidar os conhecimentos adquiridos na disciplina, respeitando os critérios avaliativos propostos e agregando melhorias significativas à estrutura original.
 
-### Critérios Avaliativos Atendidos
-- Registro completo da venda (ID cliente, ID produto, quantidade e valor total)
-- Cálculo correto do valor da venda
-- Validação de estoque antes da venda
-- Geração de relatório de vendas com dados organizados
-- Uso adequado de recursos de apresentação (menus, separadores e feedback ao usuário)
+> 💡 **Destaque:** As melhorias implementadas, como a validação de entrada, controle manual da tela, registro de data/hora e cancelamento de vendas com retorno de estoque, agregam robustez sem comprometer os requisitos essenciais.
 
----
+## 🎯 Objetivos do Projeto
+### ✨ Funcionalidades Básicas
+- **📋 Cadastro de Clientes:** Armazena nome e ID único.
+- **📦 Cadastro de Produtos:** Armazena nome, quantidade, valor e ID único.
+- **💰 Realização de Vendas:** Solicita ID do cliente, ID do produto e quantidade, valida o estoque, atualiza, calcula o total e registra a venda com data e hora.
+- **🔍 Consulta de Dados:** Exibe clientes, produtos e histórico de vendas.
+- **❌ Cancelamento de Venda:** Permite deletar uma venda e retorna os produtos ao estoque automaticamente.
 
-## 📊 Estrutura do Sistema
+### 📊 Critérios Avaliativos Essenciais
+- **📝 Registro dos Dados da Compra:** Armazena ID do cliente, ID do produto, quantidade e valor total da venda.
+- **🧮 Cálculo Correto do Total:** Multiplicação precisa de quantidade × valor unitário.
+- **⚠️ Validação do Estoque:** Bloqueia vendas quando o estoque é insuficiente.
+- **📈 Relatório de Vendas:** Lista todas as vendas e exibe o valor total acumulado.
 
-### Estruturas de Dados
-- `Cliente`: ID e nome
-- `Produto`: ID, nome, quantidade e valor
-- `Venda`: ID do cliente, ID do produto, quantidade, valor total, data e hora da compra
+## 🏗️ Estrutura do Sistema
+### 📊 Estruturas de Dados
+| Estrutura | Campos |
+|-----------|--------|
+| **Produto** | ID, nome, quantidade, valor |
+| **Cliente** | ID, nome |
+| **Venda** | ID do cliente, ID do produto, quantidade, valor total, data e hora |
 
-### Fluxo do Sistema
+### ⚙️ Funções Principais
+| Função | Descrição |
+|--------|-----------|
+| `limparBuffer()` | Evita travamentos por entradas inválidas |
+| `clearScreen()` | Limpa o terminal sob comando do usuário |
+| `cadastrarCliente() / cadastrarProduto()` | Cadastro com validação e ID único |
+| `consultarCliente() / consultarProduto()` | Exibe os dados com organização |
+| `realizarVenda()` | Valida dados, verifica estoque, calcula valor e registra com data/hora |
+| `consultarVendas()` | Exibe todas as vendas com detalhes e valor total |
+| `cancelarVenda()` | Cancela venda e devolve itens ao estoque |
+| `main()` | Gerencia o fluxo do sistema com menus interativos |
 
-O programa é controlado pelo `main()` e exibe um menu principal com opções de gerenciamento de:
-
-1. Clientes
-2. Produtos
-3. Vendas
-0. Limpar Tela
-9. Sair do Sistema
-
-Cada módulo possui submenu próprio com opções específicas.
-
----
-
-## ✨ Melhorias Implementadas
-
-- **Validação robusta de entradas** com `scanf` e `limparBuffer()`
-- **Controle manual da limpeza da tela** (`clearScreen()` multiplataforma)
-- **Submenus interativos** por categoria (Clientes, Produtos, Vendas)
-- **Cadastro dinâmico limitado a 5 registros por categoria**
-- **Remoção lógica** de clientes e produtos por ID
-- **Cancelamento de venda por ID**, com retorno do estoque
-- **Exibição dos IDs nos relatórios** (Cliente e Produto)
-- **Data e hora da venda** registradas no relatório
-- **Mensagens claras e intuitivas** ao usuário final
-- **Organização visual aprimorada** com espaçamento e separadores
-
----
-
-## 🚀 Correções Aplicadas
-
-- Prevenção de loops infinitos com entradas inválidas
-- Verificação de IDs antes de operações
-- Bloqueio de vendas com estoque insuficiente
-- Verificação se cliente/produto foi removido antes de usar
-- Limitação de cadastros após atingir capacidade
-- Padronização de mensagens de erro e confirmação
-- Compatibilidade com compilação no Windows (GCC MinGW)
-- Declaração antecipada de funções para evitar warnings
-
----
-
-## ⚙️ Compilação e Execução
-
-### Requisitos
-- GCC ou outro compilador C compatível
-
-### Compilar
-```bash
-gcc sistema_vendas.c -o sistema_vendas
-```
-
-### Executar
-```bash
-./sistema_vendas
-```
-
-No Windows, utilize `sistema_vendas.exe` após compilar.
-
----
-
-## 🌟 Conclusão
-
-Este sistema demonstra a prática de conceitos fundamentais de programação estruturada em C, com foco em organização modular, clareza de código, validação robusta de entradas e experiência intuitiva para o usuário.
-
-A documentação, os menus interativos, os relatórios bem formatados e a funcionalidade de cancelamento de venda com ajuste de estoque conferem à aplicação um padrão profissional e confiável para fins acadêmicos ou projetos iniciais.
-
-> "Projetar sistemas é como contar uma história: cada função revela um capítulo de lógica, cada variável carrega um significado, e cada estrutura dá vida à ideia."
-
----
-
-**Autor:** André Lopes  
-**Disciplina:** Linguagem de Programação com C  
-**Curso:** Análise e Desenvolvimento de Sistemas
+## 🔄 Fluxo do Sistema
+### 📱 Menu Principal

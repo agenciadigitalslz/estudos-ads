@@ -68,52 +68,71 @@ Todos os campos exigem entrada válida (numérica ou textual, conforme necessár
 ## 5. Melhorias Implementadas
 
 ### Interface e Usabilidade
-✅ **Controle Manual da Tela:** Permite ao usuário limpar a tela quando necessário
-✅ **Submenus Interativos:** Navegação intuitiva entre diferentes funcionalidades
-✅ **Organização Visual Aprimorada:** Layout mais claro e informativo
-✅ **Mensagens Personalizadas de Encerramento:** Feedback amigável ao sair do sistema
+| Melhoria | Descrição |
+|----------|-----------|
+| ✅ **Controle Manual da Tela** | Permite ao usuário limpar a tela quando necessário |
+| ✅ **Submenus Interativos** | Navegação intuitiva entre diferentes funcionalidades |
+| ✅ **Organização Visual Aprimorada** | Layout mais claro e informativo |
+| ✅ **Mensagens Personalizadas** | Feedback amigável ao sair do sistema |
 
 ### Funcionalidades Avançadas
-✅ **Cadastro Dinâmico com Limite:** Gerenciamento eficiente da memória
-✅ **Remoção Lógica por ID:** Exclusão segura sem comprometer a integridade dos dados
-✅ **Cancelamento de Venda com Retorno ao Estoque:** Reversão automática de transações
-✅ **Emissão de Nota Fiscal:** Simulação de comprovante para o cliente
+| Melhoria | Descrição |
+|----------|-----------|
+| ✅ **Cadastro Dinâmico com Limite** | Gerenciamento eficiente da memória |
+| ✅ **Remoção Lógica por ID** | Exclusão segura sem comprometer a integridade dos dados |
+| ✅ **Cancelamento de Venda** | Reversão automática de transações com retorno ao estoque |
+| ✅ **Emissão de Nota Fiscal** | Simulação de comprovante para o cliente |
 
 ### Exibição e Registro de Dados
-✅ **Exibição de IDs nos Relatórios:** Facilita rastreamento e referência
-✅ **Atualização de Estoque Após Venda:** Controle em tempo real do inventário
-✅ **Registro e Exibição de Data e Hora:** Timestamp preciso para cada transação
-✅ **Validação Robusta de Entradas:** Previne erros de digitação e dados inválidos
+| Melhoria | Descrição |
+|----------|-----------|
+| ✅ **Exibição de IDs nos Relatórios** | Facilita rastreamento e referência |
+| ✅ **Atualização de Estoque em Tempo Real** | Controle preciso do inventário após cada venda |
+| ✅ **Registro de Data e Hora** | Timestamp preciso para cada transação |
+| ✅ **Validação Robusta de Entradas** | Previne erros de digitação e dados inválidos |
 
 ### Compatibilidade
-✅ **ClearScreen Multiplataforma:** Funciona em Windows, Linux e macOS
+| Melhoria | Descrição |
+|----------|-----------|
+| ✅ **ClearScreen Multiplataforma** | Funciona em Windows, Linux e macOS |
 
 ## 6. Correções Técnicas Aplicadas
 
 ### Segurança e Validação
-🛠️ **Validação de Entradas:** Previne crashes por dados incorretos
-🛠️ **Verificação de IDs Válidos:** Garante referências a registros existentes
-🛠️ **Bloqueio de Vendas sem Estoque:** Impede operações impossíveis
-🛠️ **Mensagens Claras de Erro:** Orienta o usuário sobre problemas encontrados
+| Correção | Benefício |
+|----------|-----------|
+| 🛠️ **Validação de Entradas** | Previne crashes por dados incorretos |
+| 🛠️ **Verificação de IDs Válidos** | Garante referências a registros existentes |
+| 🛠️ **Bloqueio de Vendas sem Estoque** | Impede operações impossíveis |
+| 🛠️ **Mensagens Claras de Erro** | Orienta o usuário sobre problemas encontrados |
 
 ### Integridade de Dados
-🛠️ **Controle de Limites de Vetores:** Previne acessos inválidos à memória
-🛠️ **Ignora Itens Excluídos:** Mantém consistência nos relatórios e operações
+| Correção | Benefício |
+|----------|-----------|
+| 🛠️ **Controle de Limites de Vetores** | Previne acessos inválidos à memória |
+| 🛠️ **Ignora Itens Excluídos** | Mantém consistência nos relatórios e operações |
 
 ### Otimizações de Código
-🛠️ **Remoção de Itens Repetidos no Menu:** Interface mais limpa e eficiente
-🛠️ **Compatibilidade com Compiladores Windows:** Suporte ao MinGW
-🛠️ **Declaração Antecipada de Funções:** Estrutura de código mais organizada
+| Correção | Benefício |
+|----------|-----------|
+| 🛠️ **Menu Otimizado** | Interface mais limpa e eficiente |
+| 🛠️ **Compatibilidade com MinGW** | Suporte a compiladores Windows |
+| 🛠️ **Estrutura Organizada** | Declaração antecipada de funções |
 
 ## 7. Critérios Avaliativos Atendidos
-🎯 **1ª Etapa – Postagem da Implementação (4,0 pts)**
-- ✅ Registro dos dados da compra
-- ✅ Cálculo do valor total corretamente
 
-🎯 **2ª Etapa – Socialização e Apresentação (6,0 pts)**
-- ✅ Validação correta do estoque
-- ✅ Geração clara e funcional do relatório de vendas
-- ✅ Apresentação clara e recursos bem utilizados
+### 1ª Etapa – Postagem da Implementação (4,0 pts)
+| Critério | Status |
+|----------|--------|
+| 🎯 **Registro dos dados da compra** | ✅ Implementado com sucesso |
+| 🎯 **Cálculo do valor total** | ✅ Multiplicação precisa implementada |
+
+### 2ª Etapa – Socialização e Apresentação (6,0 pts)
+| Critério | Status |
+|----------|--------|
+| 🎯 **Validação do estoque** | ✅ Controle eficiente implementado |
+| 🎯 **Relatório de vendas** | ✅ Exibição clara e funcional |
+| 🎯 **Qualidade da apresentação** | ✅ Recursos bem utilizados |
 
 ## 8. Compilação e Execução
 **Pré-requisitos:** Compilador C (GCC recomendado).
@@ -139,7 +158,14 @@ A documentação e o código estão organizados e preparados para futuras expans
 
 ---
 
+## Sobre o Desenvolvedor
+
 **Autor:** André Lopes  
+**Formação:** Graduando em Análise e Desenvolvimento de Sistemas  
+**Instituição:** Universidade Estadual do Maranhão (UEMA)  
 **Disciplina:** Linguagem de Programação com C  
-**Curso:** Análise e Desenvolvimento de Sistemas
-**Instituição:** Universidade Estatual do Maranhão
+**Semestre:** 2025.1  
+**Contato:** contato@agenciadigitalslz.com.br  
+**GitHub:** [github.com/agenciadigitalslz](https://github.com/agenciadigitalslz)
+
+> *"Transformando lógica em soluções e código em experiências"*

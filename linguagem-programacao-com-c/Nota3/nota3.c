@@ -18,15 +18,15 @@
 #include <string.h>  // Fornece funções de manipulação de strings.
 #include <time.h>    // Fornece funções de manipulação de data e hora.
 
-// (Correção 2) Definição de limites para clientes, produtos e vendas, evitando estouro de vetores
+// Definição de limites para clientes, produtos e vendas, evitando estouro de vetores
 #define TAMCli 5     // Limite máximo de clientes no sistema
 #define TAMProd 5    // Limite máximo de produtos no sistema
 #define TAMVend 10   // Limite máximo de vendas no sistema
 
 /**
  * Limpa o buffer de entrada para evitar problemas com entradas inválidas
- * (Correção 1) Evita loop com entradas inválidas
- * (Critério de Validação de Entradas).
+ * Evita loop com entradas inválidas
+ *
  */
 void limparBuffer() {
     int ch;
@@ -35,64 +35,59 @@ void limparBuffer() {
 
 /**
  * Limpa a tela do console de forma compatível com diferentes sistemas operacionais
- * (Melhoria 2) Controle manual de limpeza de tela,
- * permitindo ao usuário decidir quando limpar (cross-plataforma).
+ * Controle manual de limpeza de tela, permitindo ao usuário decidir quando limpar (cross-plataforma).
  */
 void clearScreen() {
 #ifdef _WIN32
-    system("cls"); // (Correção 1) Limpa a tela no Windows
+    system("cls"); // Limpa a tela no Windows
 #else
-    system("clear"); // (Correção 1) Limpa a tela no Linux/Mac
+    system("clear"); // Limpa a tela no Linux/Mac
 #endif
 }
 
 /**
  * Estrutura para armazenar dados de produtos
- * (1º Critério "Registro dos dados da compra" - 2,0 pts)
- * (Correção 5) Estruturas separadas para cada entidade
- * (Melhoria 9) IDs exibidos em relatórios.
+ * 
  */
-typedef struct {              // Struct para armazenar dados de produtos
-    int id;                   // (Melhoria 9) ID único do produto
-    char nome[20];            // Nome do produto
-    int quantidade;           // Quantidade em estoque
-    float valor;              // Preço unitário
+typedef struct {      // Para armazenar dados de produtos
+    int id;           // ID único do produto
+    char nome[20];    // Nome do produto
+    int quantidade;   // Quantidade em estoque
+    float valor;      // Preço unitário
 } Produto;
 
 /**
  * Estrutura para armazenar dados de clientes
  * Mantém informações básicas de identificação do cliente
- * (Melhoria 9) Uso de ID para facilitar operações e relatórios
+ * Uso de ID para facilitar operações e relatórios
  */
 typedef struct {
-    int id;                   // (Melhoria 9) ID único do cliente
+    int id;                   // ID único do cliente
     char nome[20];            // Nome do cliente
 } Cliente;
 
 /**
  * Estrutura para armazenar dados de vendas
- * (Melhoria 12) dataHora para armazenar momento da venda.
- * (Critério "Registro dos dados da compra/vendas").
- * Armazena todas as informações necessárias para rastreamento e relatórios de vendas
+ * 
  */
-typedef struct {              // Struct para armazenar dados de vendas
-    int idVenda;              // (Melhoria 5) ID interno da venda
-    int idCliente;            // ID do cliente
-    int idProduto;            // ID do produto
-    int quantProduto;         // Quantidade vendida
-    float valorTotal;         // Valor total
-    char dataHora[30];        // Data/hora da compra
+typedef struct {         // Struct para armazenar dados de vendas
+    int idVenda;         // ID interno da venda
+    int idCliente;       // ID do cliente
+    int idProduto;       // ID do produto
+    int quantProduto;    // Quantidade vendida
+    float valorTotal;    // Valor total
+    char dataHora[30];   // Data/hora da compra
 } Venda;
 
-/* (Correção 2) Controladores globais */
+/* Controladores globais */
 int totalClientes = 0;        // Contador global de clientes cadastrados
 int totalProdutos = 0;        // Contador global de produtos cadastrados
 
 /* ----------------------- CLIENTES ----------------------- */
 /**
  * Cadastra um novo cliente no sistema
- * (Melhoria 4) Cadastro dinâmico (até TAMCli)
- * (Correção 6) Bloqueia cadastro além do limite
+ * Cadastro dinâmico (até TAMCli)
+ * Bloqueia cadastro além do limite
  * 
  * Esta função verifica se há espaço disponível, solicita os dados do cliente,      
  * valida as entradas e armazena o novo cliente no array.
@@ -118,7 +113,7 @@ void cadastrarCliente(Cliente c[]) {
 
 /**
  * Exibe a lista de todos os clientes cadastrados
- * (Melhoria 3) Relatório de clientes
+ * Relatório de clientes
  * 
  * Percorre o array de clientes e exibe os dados de cada cliente ativo.
  * Ignora clientes que foram logicamente excluídos (ID = 0).
@@ -127,7 +122,7 @@ void cadastrarCliente(Cliente c[]) {
  */
 void consultarCliente(Cliente c[]) {
     for (int i = 0; i < totalClientes; i++) {
-        // (Correção 5) Ignora clientes deletados (id=0)
+        // Ignora clientes deletados (id=0)
         if (c[i].id != 0) {
             printf("\n==============================\n");
             printf("Cliente #%d\n", c[i].id);
@@ -140,7 +135,7 @@ void consultarCliente(Cliente c[]) {
 
 /**
  * Remove logicamente um cliente do sistema por ID
- * (Melhoria 6) Deleção lógica de cliente
+ * Deleção lógica de cliente
  * 
  * Ao invés de remover fisicamente o cliente do array, marca-o como excluído
  * definindo seu ID como 0 e limpando seus dados. Isso evita problemas com
@@ -163,7 +158,6 @@ void deletarCliente(Cliente c[]) {
 
 /**
  * Submenu para gerenciamento de clientes
- * (Melhoria 3, Correção 7)
  * 
  * Apresenta um menu interativo para operações relacionadas a clientes.
  * Implementa um loop que continua até o usuário escolher sair.
@@ -179,7 +173,7 @@ void submenuClientes(Cliente clientes[]) {
         printf("3 - Deletar Cliente por ID\n");
         printf("0 - Voltar\n>>>> ");
 
-        // (Correção 1) Verificação robusta de scanf
+        // Verificação robusta de scanf
         if (scanf("%d", &opcao) != 1) {
             limparBuffer();
             printf("Opção inválida!\n");
@@ -302,7 +296,6 @@ void deletarProduto(Produto p[]) {
 
 /**
  * Submenu para gerenciamento de produtos
- * (Melhoria 3)
  * 
  * Apresenta um menu interativo para operações relacionadas a produtos.
  * Implementa um loop que continua até o usuário escolher sair.
@@ -380,9 +373,6 @@ void exibirNotaFiscal(Venda venda, Cliente cliente, Produto produto) {
 
 /**
  * Realiza uma nova venda no sistema
- * (Critério "Registro dos dados da compra" - 2,0 pts)
- * (Correção 3, 4) Validamos cliente e produto antes
- * (Critério "Validação do estoque" - 3,0 pts)
  * 
  * Solicita e valida os dados da venda (cliente, produto, quantidade),
  * verifica disponibilidade em estoque, atualiza o estoque, calcula o valor total,
@@ -421,20 +411,21 @@ void realizarVenda(Cliente clientes[], Produto produtos[], Venda vendas[], int *
         return;
     }
 
-    // Verifica se há estoque suficiente para realizar a venda
+// 3º Critério Avaliativo: Implementação correta da 
+// validação do estoque antes da venda (3,0 pontos)
+// Verifica se há estoque suficiente para realizar a venda
     if (quantidade > produtos[idProduto - 1].quantidade) {
         printf("Estoque insuficiente.\n");
         return;
     }
-
-    // (Melhoria 10) Atualiza estoque
+// Atualiza estoque
     produtos[idProduto - 1].quantidade -= quantidade;
 
-    /* (Critério "Cálculo do valor total da venda" - 2,0 pts)
-       total = quantidade × valor unitário */
+// 2º Critério Avaliativo: Cálculo do preço total da venda (2,0 pontos)
+// Calcula o valor total multiplicando a quantidade pelo valor unitário
     float total = quantidade * produtos[idProduto - 1].valor;
 
-    // Gera data/hora da venda (Melhoria 12)
+    // Gera data/hora da venda
     time_t t = time(NULL);
     struct tm tm_struct = *localtime(&t);
     char buffer[30];
@@ -446,7 +437,8 @@ void realizarVenda(Cliente clientes[], Produto produtos[], Venda vendas[], int *
             tm_struct.tm_min,
             tm_struct.tm_sec);
 
-    /* (Melhoria 5) Adicionando ID interno para a venda */
+// 1º Critério Avaliativo: Registro dos dados da compra (2,0 pontos)
+// Armazena todos os dados relevantes da venda no array de vendas
     vendas[*numVendas].idVenda      = *numVendas + 1;
     vendas[*numVendas].idCliente    = idCliente;
     vendas[*numVendas].idProduto    = idProduto;
@@ -474,7 +466,7 @@ void realizarVenda(Cliente clientes[], Produto produtos[], Venda vendas[], int *
 
 /**
  * Cancela uma venda existente e restaura o estoque
- * (Melhoria 5) Função para cancelar uma venda por ID
+ * Função para cancelar uma venda por ID
  * Retorna a quantidade cancelada para o estoque do produto
  * e realoca as vendas subsequentes.
  * 
@@ -520,7 +512,6 @@ void cancelarVenda(Venda vendas[], int *numVendas, Produto produtos[]) {
 
 /**
  * Exibe o relatório de todas as vendas realizadas
- * (Critério "Geração do relatório de vendas" - 2,0 pts)
  * 
  * Percorre o array de vendas e exibe os detalhes de cada venda,
  * incluindo cliente, produto, quantidade, valor e data/hora.
@@ -537,6 +528,8 @@ void consultarVendas(Venda vendas[], int numVendas, Cliente clientes[], Produto 
         return;
     }
 
+// 4º Critério Avaliativo: Geração correta do relatório de vendas (2,0 pontos)
+// Exibe detalhes de cada venda e calcula o total geral
     float totalGeral = 0;
     for (int i = 0; i < numVendas; i++) {
         int idCli  = vendas[i].idCliente;
@@ -558,7 +551,6 @@ void consultarVendas(Venda vendas[], int numVendas, Cliente clientes[], Produto 
 
 /**
  * Submenu para gerenciamento de vendas
- * (Melhoria 3, Correção 7)
  * Agora com opção 3 de Cancelar Venda.
  * 
  * Apresenta um menu interativo para operações relacionadas a vendas.
@@ -614,10 +606,9 @@ void submenuVendas(Cliente clientes[], Produto produtos[], Venda vendas[], int *
 
 /**
  * Função principal do programa
- * (Melhoria 7) Mensagem final ao sair
- * (Melhoria 2) Opção de limpar a tela manualmente (case 0)
- * (Correção 9) Compila em Windows com MinGW sem erro WinMain@16
- * (Critério "Uso adequado de recursos na apresentação" - 1,0 pt)
+ * Mensagem final ao sair
+ * Opção de limpar a tela manualmente (case 0)
+ * Compila em Windows com MinGW sem erro WinMain@16
  * 
  * Inicializa as estruturas de dados, apresenta o menu principal
  * e gerencia o fluxo do programa. Implementa um loop que continua
@@ -647,7 +638,7 @@ int main() {
         printf("0 - Limpar Tela\n");
         printf("9 - Sair\n>>>> ");
 
-        // (Correção 1) Verificação robusta de scanf
+        // Verificação robusta de scanf
         if (scanf("%d", &opcao) != 1) {
             limparBuffer();        // Limpa o buffer de entrada em caso de erro
             printf("\nComando inválido!\n");
